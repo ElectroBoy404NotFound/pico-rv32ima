@@ -3,3 +3,9 @@ build/
 
 #ignore .vscode
 .vscode/
+
+#ignore buildroot folder
+linux/buildroot
+
+#ignore c4 source folder
+linux/c4/c4src
