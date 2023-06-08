@@ -7,6 +7,7 @@
 #include "console.h"
 
 #include "rv32_config.h"
+#include <string.h>
 
 queue_t ser_screen_queue, kb_queue;
 
