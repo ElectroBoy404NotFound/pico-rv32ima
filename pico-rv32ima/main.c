@@ -9,7 +9,6 @@
 #include "psram.h"
 #include "emulator.h"
 #include "console.h"
-#include "terminal.h"
 
 void core1_entry();
 

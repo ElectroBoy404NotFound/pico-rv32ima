@@ -5,7 +5,6 @@
 #include "pico/util/queue.h"
 
 #include "console.h"
-#include "terminal.h"
 
 #include "psram.h"
 #include "cache.h"
@@ -50,7 +49,7 @@ void loadDataIntoRAM(const unsigned char *d, uint32_t addr, uint32_t size);
         {                                             \
             if (fail_on_all_faults)                   \
             {                                         \
-                cdc_printf("FAULT\n");                \
+                console_printf("FAULT\n");                \
                 return 3;                             \
             }                                         \
             else                                      \
