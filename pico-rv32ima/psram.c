@@ -1,20 +1,24 @@
+// Bit-banged SPI
+
 #include <stdlib.h>
+
+// Note: Insted of a PSRAM, this uses a 25Q64 EEPROM
 
 #include "rv32_config.h"
 #include "psram.h"
 
-#define PSRAM_CMD_RES_EN 0x66
-#define PSRAM_CMD_RESET 0x99
-#define PSRAM_CMD_READ_ID 0x9F
-#define PSRAM_CMD_READ 0x03
-#define PSRAM_CMD_READ_FAST 0x0B
-#define PSRAM_CMD_WRITE 0x02
-#define PSRAM_KGD 0x5D
+// #define PSRAM_CMD_RES_EN 0x66 // Didn't Find the RESET code for my EEPROM
+// #define PSRAM_CMD_RESET 0x99  // Didn't Find the RESET code for my EEPROM
+#define PSRAM_CMD_READ_ID 0x90   // 0x90 For Reading device ID
+#define PSRAM_CMD_READ 0x03      // 0x03 For Reading a byte
+#define PSRAM_CMD_READ_FAST 0x0B // 0x0B For Reading a byte quickly
+#define PSRAM_CMD_WRITE 0x02     // 0x02 For writing a byte
+#define PSRAM_KGD 0x16           // 0x16 Is the ID for my EEPROM
 
 #define RAM_HALF (EMULATOR_RAM_MB * 512 * 1024)
 
-#define selectPsramChip(c) gpio_put(c, false)
-#define deSelectPsramChip(c) gpio_put(c, true)
+#define selectPsramChip(c) gpio_put(c, false)  // Chip-set (CS) set to LOW (CS is active LOW)
+#define deSelectPsramChip(c) gpio_put(c, true) // Chip-set (CS) set to HIGH (CS is active LOW)
 
 #define spi_set_mosi(value) gpio_put(PSRAM_SPI_PIN_TX, value)
 #define spi_read_miso() gpio_get(PSRAM_SPI_PIN_RX)
@@ -64,12 +68,14 @@ void sendPsramCommand(uint8_t cmd, uint chip)
         deSelectPsramChip(chip);
 }
 
-void psramReset(uint chip)
-{
-    sendPsramCommand(PSRAM_CMD_RES_EN, chip);
-    sendPsramCommand(PSRAM_CMD_RESET, chip);
-    sleep_ms(10);
-}
+
+// Didn't Find the RESET code for my EEPROM
+// void psramReset(uint chip)
+// {
+//     sendPsramCommand(PSRAM_CMD_RES_EN, chip);
+//     sendPsramCommand(PSRAM_CMD_RESET, chip);
+//     sleep_ms(10);
+// }
 
 void psramReadID(uint chip, uint8_t *dst)
 {
@@ -102,8 +108,9 @@ int initPSRAM()
 
     sleep_ms(10);
 
-    psramReset(PSRAM_SPI_PIN_S1);
-    psramReset(PSRAM_SPI_PIN_S2);
+    // Didn't Find the RESET code for my EEPROM
+    // psramReset(PSRAM_SPI_PIN_S1);
+    // psramReset(PSRAM_SPI_PIN_S2);
 
     uint8_t chipId[6];
 
