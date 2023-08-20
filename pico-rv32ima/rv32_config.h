@@ -23,7 +23,7 @@
 /***************/
 
 // Set to 1 to use SDIO interface for the SD. Set to 0 to use SPI.
-#define SD_USE_SDIO 1
+#define SD_USE_SDIO 0
 
 #if SD_USE_SDIO
 
