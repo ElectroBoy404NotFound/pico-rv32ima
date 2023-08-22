@@ -168,16 +168,20 @@ FRESULT loadFileIntoRAM(const char *imageFilename, uint32_t addr)
 {
     FIL imageFile;
     FRESULT fr = f_open(&imageFile, imageFilename, FA_READ);
-    if (FR_OK != fr && FR_EXIST != fr)
+    if (FR_OK != fr && FR_EXIST != fr) {
+        cdc_printf("\n\nI'm unable to open Image as READ!\n\n");
         return fr;
+    }
 
     FSIZE_t imageSize = f_size(&imageFile);
     for (uint64_t i = 0; i < imageSize; i++)
     {
         uint8_t val;
         fr = f_read(&imageFile, &val, 1, NULL);
-        if (FR_OK != fr)
+        if (FR_OK != fr) {
+            cdc_printf("\n\nI'm unable to write to ram!\n");
             return fr;
+        }
         accessSDRAM(addr++, 1, true, &val);
     }
     fr = f_close(&imageFile);
